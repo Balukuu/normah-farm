@@ -1,0 +1,149 @@
+/*
+  NORMAH AGRO FARM — design tokens
+  Warm, friendly farm-to-market shell: cream paper, deep forest green,
+  citrus-orange accent, soft mint surfaces, rounded cards.
+  Do not add hex values outside this file.
+*/
+
+@font-face {
+  font-family: "Archivo";
+  src: url("../fonts/archivo-variable.woff2") format("woff2-variations"),
+       url("../fonts/archivo-variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("../fonts/instrument-sans.woff2") format("woff2");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("../fonts/plex-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("../fonts/plex-mono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---- colour: six named tokens + paper/rule ---- */
+  --ink:   #1A2A1C;
+  --seed:  #1F3D2A;
+  --leaf:  #5D9E52;
+  --chaff: #E98B3E;            /* was lime #D6FA3B — now the citrus-orange accent */
+  --loam:  #6B4A2C;
+  --mist:  #F7F5EC;
+  --paper: #FFFFFF;
+  --mint:  #E8F2D9;            /* soft green surface: stat bar, FAQ band */
+  --rule:  rgba(var(--ink-rgb), 0.08);
+
+  /* derived, same hues only — enhanced depth */
+  --ink-rgb: 26, 42, 28;
+  --on-ink: #F5F6F1;          /* text on --ink surfaces */
+  --on-ink-dim: rgba(var(--on-ink-rgb), 0.68);
+  --seed-rgb: 31, 61, 42;
+  --leaf-rgb: 93, 158, 82;
+  --loam-rgb: 107, 74, 44;
+  --on-ink-rgb: 245, 246, 241;
+  --chaff-rgb: 233, 139, 62;
+  --mint-rgb: 232, 242, 217;
+  --chaff-ink: #FFFFFF;       /* text set on orange fills */
+  --focus-ring: #1F3D2A;      /* = --seed, distinct enough on both paper and ink */
+
+  /* premium depth & shadows */
+  --shadow-ledger: 0 1px 0 rgba(var(--ink-rgb), 0.06);
+  --shadow-card: 0 14px 30px -15px rgba(var(--ink-rgb), 0.1), 0 4px 12px -4px rgba(var(--ink-rgb), 0.05);
+  --shadow-card-hover: 0 22px 45px -18px rgba(var(--seed-rgb), 0.22), 0 8px 24px -6px rgba(var(--ink-rgb), 0.1);
+  --shadow-glass: 0 20px 40px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  --shadow-chaff-glow: 0 0 24px -4px rgba(var(--chaff-rgb), 0.5);
+
+  /* luxury gradients */
+  --seed-gradient: linear-gradient(135deg, #26523B 0%, #16281B 100%);
+  --dark-gradient: linear-gradient(145deg, #1F3B29 0%, #122115 100%);
+  --chaff-gradient: linear-gradient(135deg, #F0A45E 0%, #E07C2C 100%);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-dark: rgba(24, 38, 27, 0.72);
+
+  /* ---- type families ---- */
+  --font-display: "Archivo", "Arial Narrow", sans-serif;
+  --font-body: "Instrument Sans", -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", "Courier New", monospace;
+
+  /* ---- type scale (fluid, clamp-based) ---- */
+  --size-display: clamp(2.75rem, 2rem + 3.2vw, 5.75rem);
+  --size-h2: clamp(1.75rem, 1.4rem + 1.6vw, 3rem);
+  --size-h3: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  --size-body: 1.0625rem;
+  --size-body-sm: 0.9375rem;
+  --size-data: 0.875rem;
+  --size-data-sm: 0.75rem;
+  --line-body: 1.65;
+  --line-tight: 1.15;
+
+  /* ---- spacing rhythm ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* ---- layout ---- */
+  --content-max: 78rem;
+  --col-gutter: clamp(1.25rem, 4vw, 3rem);
+  --rail-width: 15rem;
+  --radius-card: 1.375rem;
+  --radius-card-lg: 2rem;
+  --radius-pill: 999px;
+
+  /* ---- motion ---- */
+  --ease-ledger: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 180ms;
+  --dur-med: 420ms;
+  --dur-slow: 900ms;
+}
+
+/* Keyframe Animations */
+@keyframes pulse-live {
+  0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(var(--chaff-rgb), 0.7); }
+  70% { transform: scale(1.05); opacity: 0.9; box-shadow: 0 0 0 8px rgba(var(--chaff-rgb), 0); }
+  100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(var(--chaff-rgb), 0); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes float-badge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-med: 0ms;
+    --dur-slow: 0ms;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/tmp/imgvenv2/bin/python3 -c ' *)",
+      "Bash(/tmp/imgvenv2/bin/python3)",
+      "Bash(/tmp/imgvenv2/bin/pip install *)",
+      "Bash(/tmp/imgvenv2/bin/python3 /tmp/process_photos.py)"
+    ],
+    "additionalDirectories": [
+      "/tmp"
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+# Normah Agro Farm — Apache configuration for shared hosting (cPanel).
+# This site is static HTML with no build step, so this file does the two
+# things a static host needs: clean URLs and sensible caching headers.
+
+# ---------------------------------------------------------------------
+# Clean URLs: allow /crops/maize instead of requiring /crops/maize.html,
+# and /crops instead of /crops/index.html, without breaking the .html
+# links already used throughout the site (both keep working).
+# ---------------------------------------------------------------------
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# Serve directory requests as their index.html (e.g. /crops -> /crops/index.html)
+DirectoryIndex index.html
+
+# If a request has no extension and a matching .html file exists, serve it
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# ---------------------------------------------------------------------
+# Custom error pages (optional — uncomment once a 404.html is added)
+# ---------------------------------------------------------------------
+# ErrorDocument 404 /404.html
+
+# ---------------------------------------------------------------------
+# Caching: long cache for fingerprint-free static assets, short cache for
+# HTML so content edits go live promptly.
+# ---------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType application/xhtml+xml "access plus 1 hour"
+
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/javascript "access plus 1 month"
+
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/x-icon "access plus 1 month"
+
+  ExpiresByType application/pdf "access plus 1 week"
+  ExpiresByType application/vnd.openxmlformats-officedocument.spreadsheetml.sheet "access plus 1 week"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|woff2?|svg|webp|png|jpe?g|ico)$">
+    Header set Cache-Control "public, max-age=2592000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+  # Basic hardening
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---------------------------------------------------------------------
+# Compression
+# ---------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>
+
+# ---------------------------------------------------------------------
+# Correct MIME type for woff2 on older Apache/cPanel configs
+# ---------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .webmanifest
+</IfModule>

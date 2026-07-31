@@ -1,0 +1,73 @@
+<?php
+/**
+ * NORMAH AGRO FARM — example quote/enquiry mail handler for cPanel/Apache
+ * shared hosting.
+ *
+ * This is a STARTING POINT, not a drop-in file — rename to send-quote.php,
+ * fill in the constants below, and test a live submission before relying
+ * on it. It requires PHP's mail() to be configured on the host (cPanel
+ * shared hosting normally has this out of the box) and works with the
+ * JSON payload posted by assets/js/quote-form.js.
+ *
+ * [VERIFY] Recipient address(es) below are placeholders — confirm with
+ * the client which inbox should receive quote requests vs. general
+ * enquiries before go-live.
+ */
+
+// ---- configuration -------------------------------------------------
+const RECIPIENT_EMAIL = "info@normahfarms.co.ug";
+const SITE_ORIGIN = "https://www.normahagrofarm.com"; // used for the CORS allow-list below
+// ---------------------------------------------------------------------
+
+header("Content-Type: application/json");
+
+// Only accept same-origin POSTs.
+$origin = $_SERVER["HTTP_ORIGIN"] ?? "";
+if ($origin === SITE_ORIGIN) {
+    header("Access-Control-Allow-Origin: " . SITE_ORIGIN);
+}
+
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    http_response_code(405);
+    echo json_encode(["error" => "Method not allowed"]);
+    exit;
+}
+
+$raw = file_get_contents("php://input");
+$data = json_decode($raw, true);
+
+if (!is_array($data)) {
+    http_response_code(400);
+    echo json_encode(["error" => "Invalid payload"]);
+    exit;
+}
+
+// Basic honeypot support: if the form includes a hidden field named
+// "website" that a human would never fill in, silently accept but drop it.
+if (!empty($data["website"])) {
+    echo json_encode(["ok" => true]);
+    exit;
+}
+
+function clean($value) {
+    return htmlspecialchars(trim(is_array($value) ? implode(", ", $value) : (string) $value), ENT_QUOTES);
+}
+
+$lines = [];
+foreach ($data as $key => $value) {
+    $lines[] = ucfirst(str_replace("_", " ", $key)) . ": " . clean($value);
+}
+
+$subject = "Normah Agro Farm — new " . (isset($data["form_type"]) ? clean($data["form_type"]) : "website") . " submission";
+$body = implode("\n", $lines);
+$fromEmail = "no-reply@normahagrofarm.com"; // [VERIFY] use a real, deliverable sending address on this domain
+$headers = "From: " . $fromEmail . "\r\nReply-To: " . (isset($data["email"]) ? clean($data["email"]) : $fromEmail);
+
+$sent = mail(RECIPIENT_EMAIL, $subject, $body, $headers);
+
+if ($sent) {
+    echo json_encode(["ok" => true]);
+} else {
+    http_response_code(502);
+    echo json_encode(["error" => "Mail could not be sent"]);
+}
