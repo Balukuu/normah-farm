@@ -25,7 +25,7 @@ a { color: inherit; transition: color var(--dur-fast) var(--ease-ledger); }
 button { font: inherit; color: inherit; }
 table { border-collapse: collapse; }
 ul, ol { padding-left: 1.25em; }
-h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: var(--line-tight); margin: 0; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: var(--line-tight); margin: 0; overflow-wrap: break-word; }
 p { margin: 0; }
 
 .mono, .data, time, .figure {
