@@ -574,8 +574,9 @@
 /* below this, percentage-positioned chips get too tight to avoid colliding —
    fall back to a plain stacked list rather than let them overlap */
 @media (max-width: 64rem) {
-  .season-band .chips { height: auto; margin-top: var(--space-4); position: static; display: grid; gap: var(--space-2); }
+  .season-band .chips { height: auto; margin-top: var(--space-4); position: static; display: flex; flex-wrap: wrap; gap: var(--space-2); }
   .season-band .chip { position: static; transform: none; width: fit-content; padding-block: 0.65rem; }
+  .season-band .chip:hover, .season-band .chip:focus-visible, .season-band .chip.is-lit:hover { transform: translateY(-2px); }
   .season-band .chip::before, .season-band .chip::after { display: none; }
   .season-band .today-line { display: none; }
 }

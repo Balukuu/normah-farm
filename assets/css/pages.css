@@ -474,6 +474,20 @@
   .stat-bar .stat:not(:first-child)::before { content: ""; position: absolute; left: 0; top: 0.15rem; bottom: 0.15rem; width: 1px; background: rgba(var(--ink-rgb), 0.1); }
 }
 
+/* compact quadrant layout below the 4-up breakpoint: same centered icon-over-figure arrangement as larger screens, just scaled down. Inset further than the hero photo and dropped below it (not overlapping) so it reads as its own, smaller element instead of matching the hero's edges. */
+@media (max-width: 47.9375rem) {
+  .stat-bar-wrap { margin-top: var(--space-6); padding-inline: calc(var(--col-gutter) + var(--space-4)); }
+  .stat-bar { padding: var(--space-4) var(--space-3); gap: var(--space-3) var(--space-2); }
+  .stat-bar .stat { padding: var(--space-2); }
+  .stat-bar .stat:hover { transform: none; }
+  .stat-bar .stat:nth-child(2n) { border-left: 1px solid rgba(var(--ink-rgb), 0.08); }
+  .stat-bar .stat:nth-child(n+3) { border-top: 1px solid rgba(var(--ink-rgb), 0.08); }
+  .stat-bar .stat-icon { width: 1.75rem; height: 1.75rem; margin: 0 auto var(--space-2); }
+  .stat-bar .stat-icon svg { width: 0.8rem; height: 0.8rem; }
+  .stat-bar .stat .num { font-size: 0.95rem; line-height: 1.15; }
+  .stat-bar .stat .lbl { font-size: 0.64rem; line-height: 1.25; margin-top: 0.1rem; }
+}
+
 /* ============ ABOUT PHOTOS (two staggered portraits) ============ */
 .about-intro-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-8); }
 @media (min-width: 56rem) { .about-intro-grid { grid-template-columns: 1fr 1.05fr; gap: var(--space-12); align-items: center; } }
