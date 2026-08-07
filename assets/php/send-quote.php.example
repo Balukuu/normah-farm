@@ -50,7 +50,15 @@ if (!empty($data["website"])) {
 }
 
 function clean($value) {
-    return htmlspecialchars(trim(is_array($value) ? implode(", ", $value) : (string) $value), ENT_QUOTES);
+    return trim(is_array($value) ? implode(", ", $value) : (string) $value);
+}
+
+// Strips CR/LF (and NUL) from anything that ends up in the Subject or
+// Reply-To header. mail() does not do this itself, so without it a
+// submitted value like "x@y.com\r\nBcc: someone@evil.com" would inject
+// arbitrary extra headers into the outgoing message.
+function headerSafe($value) {
+    return trim(preg_replace('/[\r\n\x00]+/', ' ', clean($value)));
 }
 
 $lines = [];
@@ -58,10 +66,10 @@ foreach ($data as $key => $value) {
     $lines[] = ucfirst(str_replace("_", " ", $key)) . ": " . clean($value);
 }
 
-$subject = "Normah Agro Farm — new " . (isset($data["form_type"]) ? clean($data["form_type"]) : "website") . " submission";
+$subject = "Normah Agro Farm — new " . (isset($data["form_type"]) ? headerSafe($data["form_type"]) : "website") . " submission";
 $body = implode("\n", $lines);
 $fromEmail = "no-reply@normahagrofarm.com"; // [VERIFY] use a real, deliverable sending address on this domain
-$headers = "From: " . $fromEmail . "\r\nReply-To: " . (isset($data["email"]) ? clean($data["email"]) : $fromEmail);
+$headers = "From: " . $fromEmail . "\r\nReply-To: " . (isset($data["email"]) ? headerSafe($data["email"]) : $fromEmail);
 
 $sent = mail(RECIPIENT_EMAIL, $subject, $body, $headers);
 
