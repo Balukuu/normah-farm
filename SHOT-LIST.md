@@ -37,14 +37,16 @@ rather than depending on a single visit.
 | 16 | Impact | Soil-first agronomy | A rotation or cover-cropped field showing the practice, not just a green field | Either season | Wide (16:9) |
 | 17 | Impact | Local employment | Farm staff at work (equipment operation, fieldwork, or warehouse) | Any, with consent | Standard (4:3) |
 | 18 | Impact | Community engagement | A farm open day or community training session, people visible | Harvest-time open day if one is run | Standard (4:3) |
-| 19 | About | Directors | Portrait of Hassan Mortada | Any | Square (1:1) |
-| 20 | About | Directors | Portrait of James Odera | Any | Square (1:1) |
-| 21 | Field notes — "Season B planting" | Post body | Planting operation in progress | Season B, planting window | Wide (16:9) |
-| 22 | Field notes — "Inside the warehouse" | Post body | Warehouse interior, grain in bags | Post-harvest | Wide (16:9) |
-| 23 | Field notes — "Farmer training day" | Post body | Training or demonstration farming session | Any session date | Wide (16:9) |
+| 19 | Field notes — "Season B planting" | Post body | Planting operation in progress | Season B, planting window | Wide (16:9) |
+| 20 | Field notes — "Inside the warehouse" | Post body | Warehouse interior, grain in bags | Post-harvest | Wide (16:9) |
 
 **Not yet on the shot list because the infrastructure doesn't exist yet:**
 the planned silo, weighbridge, walk-in bagging area, washing/grading area
 and district pack houses (Masindi, Lira, Gulu, Amuru) have no photo slot
 on the site — add one only once each is actually built, so the site never
 implies a planned asset already exists.
+
+**Dropped, 2026-08-29:** the About/Directors portraits (Hassan Mortada,
+James Odera) and the "Farmer training day" post-body photo no longer have
+a placeholder in the HTML — those sections now run text-only by request,
+so there's nothing left to shoot for them.

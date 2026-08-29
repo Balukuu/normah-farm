@@ -29,7 +29,8 @@ assets/docs/                crop-specifications.xlsx, the two PDFs
 assets/php/send-quote.php.example   Starting point for a cPanel mail handler
 data/crops.json             Single source of truth for crop data
 scripts/                    Python build scripts for the xlsx/PDFs/OG cards (not needed to run the site — only to regenerate the docs)
-robots.txt, sitemap.xml, .htaccess
+robots.txt, sitemap.xml, CNAME, .nojekyll
+.htaccess                   Apache/cPanel config — inert on the current GitHub Pages host, kept in case of a future Apache deployment
 SHOT-LIST.md                Every photo placeholder, what to shoot and when
 CONTENT-GAPS.md             Every [VERIFY] in the build, grouped, with who needs to answer
 ```
@@ -90,39 +91,43 @@ python scripts/build-og-cards.py
 validates fields client-side, then POSTs a JSON payload to an endpoint —
 **no form on this site sends anywhere until you set that endpoint.**
 
-Two ways to wire it up:
+The site is static and hosted on GitHub Pages, which cannot run the PHP
+mail handler (`assets/php/send-quote.php.example` is kept only in case
+of a future move to Apache/cPanel hosting — it does not work here).
+Forms POST to **Formspree** instead:
 
-1. **A hosted form service** (Formspree or similar). Set
-   `window.NORMAH_FORM_ENDPOINT` to the service's endpoint URL in a small
-   inline `<script>` placed before `quote-form.js` loads on each page
-   that has a form (`buyers.html`, `contact.html`).
+1. Create a form at [formspree.io](https://formspree.io) for each of the
+   two forms (or reuse one endpoint for both, if you're on a plan with a
+   submission cap you'd rather share).
+2. Each `<form data-normah-form>` in `buyers.html` and `contact.html`
+   already carries `data-endpoint="https://formspree.io/f/YOUR_FORM_ID"`
+   — replace `YOUR_FORM_ID` with the real id Formspree gives you (marked
+   with a `[VERIFY]` comment right above each form tag).
+3. `quote-form.js` sends `Accept: application/json` so Formspree responds
+   with JSON instead of redirecting — no further code changes needed.
 
-2. **A PHP mail handler on cPanel/Apache shared hosting** (the default
-   this build assumes, since that's the stated hosting target). Copy
-   `assets/php/send-quote.php.example` to `assets/php/send-quote.php`,
-   fill in `RECIPIENT_EMAIL` and `SITE_ORIGIN`, and confirm `mail()` is
-   enabled on the host. This is the endpoint `quote-form.js` posts to by
-   default if you set nothing else.
+Test a real submission once the ids are set — Formspree's free tier has
+a monthly submission cap, worth checking before launch.
 
-Test a real submission on the live host before considering the forms
-done — `mail()` behaviour varies by hosting provider.
+## Deployment (GitHub Pages)
 
-## Deployment (cPanel / Apache shared hosting)
+The site is deployed via GitHub Pages with a custom domain,
+`normahfarms.co.ug`, set in the `CNAME` file at the repo root.
 
-1. Upload the entire contents of this folder to the account's web root
-   (commonly `public_html/`).
-2. Confirm `.htaccess` uploaded (some FTP clients hide dotfiles by
-   default — check explicitly). It handles clean URLs (`/crops/maize`
-   works alongside `/crops/maize.html`), cache headers, and gzip.
-3. Confirm `mod_rewrite`, `mod_expires`, `mod_headers` and `mod_deflate`
-   are enabled — standard on virtually all cPanel hosts, but worth a
-   quick check if clean URLs don't resolve.
-4. Update every `https://www.normahagrofarm.com/` occurrence (canonical
-   tags, Open Graph URLs, JSON-LD, `sitemap.xml`, `robots.txt`) to the
-   real live domain if it differs from this placeholder.
-5. Set up `assets/php/send-quote.php` per the section above, or point
-   `NORMAH_FORM_ENDPOINT` at a hosted form service.
-6. Submit `sitemap.xml` to Google Search Console once the domain is live.
+- **Clean URLs work natively** — GitHub Pages serves `/about` directly
+  from `about.html` with no redirect and no build step, so every internal
+  link on the site already omits the `.html` extension. `.htaccess` (an
+  Apache/cPanel artifact) does nothing here; it's kept only for a
+  possible future move off GitHub Pages.
+- `.nojekyll` at the repo root skips GitHub's default Jekyll build step,
+  since this is plain hand-authored HTML with no templating.
+- Canonical tags, Open Graph URLs, JSON-LD and `sitemap.xml` all point at
+  `https://normahfarms.co.ug/` — update all of these together if the
+  domain ever changes (grep for the old domain across `*.html`,
+  `sitemap.xml`, and `robots.txt`).
+- Set up the Formspree endpoints per the section above before considering
+  the forms done.
+- Submit `sitemap.xml` to Google Search Console once the domain is live.
 
 ## Design rationale (short version)
 

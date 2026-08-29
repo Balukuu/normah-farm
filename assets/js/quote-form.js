@@ -5,16 +5,14 @@
 // enquiry form (/contact.html) use this one script.
 //
 // REQUIRED SETUP — see README.md "Wiring the form" section:
-// Set window.NORMAH_FORM_ENDPOINT (in a small inline <script> before this
-// file loads, or by editing the constant below) to your submission
-// endpoint. Two supported shapes:
-//   1. A hosted form service (e.g. Formspree-style) — POST JSON, expects
-//      a 2xx response.
-//   2. /assets/php/send-quote.php on cPanel/Apache shared hosting — see
-//      assets/php/send-quote.php.example for a working starting point.
-// No form on this site posts anywhere without that endpoint being set.
+// The site is static (GitHub Pages), so each form POSTs to a hosted
+// form-backend service (Formspree) instead of a server-side script. Each
+// <form data-normah-form> below already carries its own
+// data-endpoint="https://formspree.io/f/YOUR_FORM_ID" — replace YOUR_FORM_ID
+// with the real id from your Formspree account before launch. No form on
+// this site delivers anywhere until that's set.
 (function () {
-  var DEFAULT_ENDPOINT = window.NORMAH_FORM_ENDPOINT || "/assets/php/send-quote.php";
+  var DEFAULT_ENDPOINT = window.NORMAH_FORM_ENDPOINT || "";
 
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -101,6 +99,13 @@
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (!endpoint) {
+        if (statusEl) {
+          statusEl.hidden = false;
+          setStatus(statusEl, "error", "This form isn't wired up to send anywhere yet — email info@normahfarms.co.ug directly.");
+        }
+        return;
+      }
       if (!validate(form)) {
         if (statusEl) setStatus(statusEl, "error", "Check the highlighted fields and try again.");
         return;
@@ -116,7 +121,7 @@
 
       fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify(payload),
       })
         .then(function (res) {

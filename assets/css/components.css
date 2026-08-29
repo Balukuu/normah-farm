@@ -347,34 +347,7 @@
 .section--dark .highlight-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); box-shadow: none; }
 .section--dark .highlight-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(var(--chaff-rgb),0.4); }
 
-/* ============ PHOTO PLACEHOLDER ============ */
-.photo-slot {
-  position: relative;
-  background: var(--mist);
-  background-image:
-    linear-gradient(45deg, rgba(var(--ink-rgb),0.05) 25%, transparent 25%, transparent 50%, rgba(var(--ink-rgb),0.05) 50%, rgba(var(--ink-rgb),0.05) 75%, transparent 75%, transparent);
-  background-size: 16px 16px;
-  border: 1px dashed var(--rule);
-  border-radius: var(--radius-card);
-  aspect-ratio: 4 / 3;
-  display: flex;
-  align-items: flex-end;
-  padding: var(--space-3);
-  overflow: hidden;
-}
-.photo-slot--wide { aspect-ratio: 16 / 9; }
-.photo-slot--square { aspect-ratio: 1 / 1; }
-.section--dark .photo-slot { background-color: rgba(var(--on-ink-rgb),0.05); border-color: rgba(var(--on-ink-rgb),0.35); }
-.photo-slot .cap {
-  font-family: var(--font-data);
-  font-size: var(--size-data-sm);
-  background: var(--ink);
-  color: var(--on-ink);
-  padding: 0.35rem 0.6rem;
-  border-radius: var(--radius-card);
-}
-
-/* ============ PHOTO (real photography, replaces .photo-slot) ============ */
+/* ============ PHOTO ============ */
 .photo {
   display: block;
   width: 100%;

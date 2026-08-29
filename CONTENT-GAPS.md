@@ -8,10 +8,12 @@ client, update the source file named, then re-run the build scripts in
 `/scripts` where noted so the site, spreadsheet and PDFs stay in sync.
 
 ## 1. Brand & domain
-- **Live domain.** Every canonical URL, Open Graph tag and JSON-LD block
-  currently assumes `https://www.normahagrofarm.com/` as a placeholder.
-  Confirm the real domain, then find-and-replace it across all HTML files.
-  *Who: client, on the actual hosting/domain purchase.*
+- **Live domain — resolved 2026-08-29.** Every canonical URL, Open Graph
+  tag, JSON-LD block, `sitemap.xml` and `robots.txt` now point at
+  `https://normahfarms.co.ug/`, matching the GitHub Pages `CNAME` file and
+  the site's existing contact email. All internal links were also
+  switched to extension-less clean URLs (`/about`, not `/about.html`) to
+  match how GitHub Pages actually serves the site.
 - **Logo file.** `assets/img/logo.svg` is a built-from-description
   recreation of the mark described in the brief (wheat ear, green circle,
   yellow band) — the real logo file was never supplied to this build.
@@ -83,9 +85,12 @@ client, update the source file named, then re-run the build scripts in
 - **WhatsApp number** — confirmed: `+256 751 365 747`; the floating dock
   button on the site now links to `wa.me/256751365747`.
 - **Sales inbox** — confirmed: `info@normahfarms.co.ug`, live site-wide.
-- **Sending address** for the PHP mail handler (`no-reply@normahagrofarm.com`)
-  still needs to be a real, deliverable address once the live domain is
-  confirmed (see Section 1) — left as-is since it depends on that domain.
+- **Formspree form ids** — the site is hosted on GitHub Pages, which can't
+  run the PHP mail handler, so `buyers.html` and `contact.html` each POST
+  to `https://formspree.io/f/YOUR_FORM_ID` (marked `[VERIFY]` right above
+  each `<form>` tag). Create a Formspree account, generate a form id for
+  each, and swap it in — see the README's "Wiring the quote & enquiry
+  forms" section. Until then neither form delivers anywhere.
 - **Farm's exact GPS coordinates** — `contact.html`'s embedded map and
   `LocalBusiness` JSON-LD currently use an approximate Amuru District
   centroid, not a surveyed location.
