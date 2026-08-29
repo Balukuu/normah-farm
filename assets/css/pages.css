@@ -277,7 +277,6 @@
 /* ============ DIRECTORS / TEAM ============ */
 .people-grid { display: grid; gap: var(--space-8); grid-template-columns: 1fr; }
 @media (min-width: 48rem) { .people-grid { grid-template-columns: repeat(2, 1fr); } }
-.person .photo-slot { margin-bottom: var(--space-4); }
 .person h3 { margin-bottom: var(--space-1); }
 .person .role { font-family: var(--font-data); font-size: var(--size-data-sm); color: var(--seed); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--space-3); display: block; font-weight: 500; }
 
