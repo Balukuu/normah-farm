@@ -1,76 +1,101 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" class="corridor-map" role="img" aria-labelledby="corridorTitle corridorDesc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" role="img" aria-labelledby="corridorTitle corridorDesc">
   <title id="corridorTitle">Amuru's position on the northern export corridor</title>
   <desc id="corridorDesc">A flat schematic map showing Normah's farm at Bana Trading Centre, Amuru District, its road link to Gulu, the route north to the Elegu/Nimule border crossing into South Sudan, and onward trade routes toward the United Kingdom, India, the Middle East and United Arab Emirates, Sudan, Egypt and the Far East, plus regional demand from Kenya and South Sudan.</desc>
 
-  <!-- background plate -->
-  <rect x="0" y="0" width="800" height="460" fill="none" />
+  <style>
+    text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .label, .label-sm {
+      paint-order: stroke fill;
+      stroke: #F7F5EC;
+      stroke-linejoin: round;
+      fill: #1A2A1C;
+    }
+    .label { font-size: 15px; font-weight: 700; stroke-width: 5px; }
+    .label-sm { font-size: 12.5px; font-weight: 500; opacity: 0.7; stroke-width: 4.5px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; fill: #6B4A2C; opacity: 0.75; stroke-width: 4px; }
+
+    .route { fill: none; stroke: #1F3D2A; stroke-width: 3.25; stroke-linecap: round; stroke-linejoin: round; }
+    .route-context { fill: none; stroke: #6B4A2C; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1 7; opacity: 0.55; }
+    .route-export { fill: none; stroke: #6B4A2C; stroke-width: 2; stroke-linecap: round; opacity: 0.85; }
+
+    .node-dot { fill: #1F3D2A; stroke: #F7F5EC; stroke-width: 2.25; }
+    .node-dot--ghost { fill: #6B4A2C; stroke: none; opacity: 0.55; }
+    .origin-halo { fill: #E98B3E; opacity: 0.16; }
+    .origin-halo-2 { fill: #E98B3E; opacity: 0.22; }
+    .origin-dot { fill: #E98B3E; stroke: #F7F5EC; stroke-width: 3; }
+  </style>
 
   <!-- regional landmass silhouette, flat + abstract, not satellite -->
-  <path d="M120 60 L 560 40 L 620 140 L 600 320 L 480 420 L 180 400 L 90 260 Z"
-        fill="#E5EAE1" stroke="#6B4A2C" stroke-width="1.5" opacity="0.7" />
+  <path d="M124 66 Q 300 34 486 42 Q 574 46 616 118 Q 636 190 604 292 Q 588 356 500 404 Q 400 438 268 424 Q 176 412 122 340 Q 78 282 84 210 Q 88 132 124 66 Z"
+        fill="#EDEFE3" stroke="#D8CFB8" stroke-width="1.5" />
 
   <!-- South Sudan border line -->
-  <line x1="90" y1="140" x2="600" y2="140" stroke="#6B4A2C" stroke-width="2" stroke-dasharray="2 6" />
-  <text x="605" y="136" class="label-sm">South Sudan border</text>
+  <line x1="70" y1="128" x2="612" y2="128" stroke="#6B4A2C" stroke-width="1.5" stroke-dasharray="1.5 6" opacity="0.6" />
+  <text x="620" y="123" class="label-sm" text-anchor="start">South Sudan</text>
+  <text x="620" y="139" class="label-sm" text-anchor="start">border</text>
 
-  <!-- corridor route: Amuru -> Gulu -> Elegu/Nimule -->
-  <path class="route" d="M300 300 L 340 220 L 300 150" />
-  <!-- Gulu -> Kampala (south) for context -->
-  <path class="route" d="M340 220 L 420 380" stroke-dasharray="3 5" opacity="0.6" />
+  <!-- domestic corridor: Amuru -> Gulu -> Elegu/Nimule -->
+  <path class="route" d="M300 314 C 338 288 350 258 340 226 C 331 197 315 168 302 138" />
+  <!-- Gulu -> Kampala, context only -->
+  <path class="route-context" d="M340 226 C 372 276 398 322 418 372" />
 
-  <!-- outward arrows to export destinations -->
-  <g stroke="#6B4A2C" stroke-width="2" fill="none" marker-end="url(#arrowhead)">
-    <path d="M300 150 L 210 70" />   <!-- UK / Europe, NW -->
-    <path d="M300 150 L 300 60" />   <!-- Middle East / UAE / Egypt, N -->
-    <path d="M300 150 L 400 70" />   <!-- Sudan, NE -->
-    <path d="M300 150 L 470 110" />  <!-- Far East (China, India), E -->
+  <!-- outward export arrows from the border crossing -->
+  <g class="route-export" marker-end="url(#arrowhead)">
+    <path d="M300 132 C 250 100 210 82 176 64" />   <!-- UK / Europe, NW -->
+    <path d="M300 130 C 300 100 300 74 300 52" />   <!-- Middle East / UAE, N -->
+    <path d="M302 132 C 348 104 392 84 432 66" />   <!-- Sudan / Egypt, NE -->
+    <path d="M306 138 C 372 122 440 112 508 100" />  <!-- Far East, E -->
   </g>
 
   <defs>
-    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 Z" fill="#6B4A2C" />
+    <marker id="arrowhead" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#6B4A2C" />
     </marker>
   </defs>
 
   <!-- destination labels -->
-  <text x="150" y="60" class="label-sm">United Kingdom</text>
-  <text x="255" y="48" class="label-sm">Middle East · UAE</text>
-  <text x="405" y="60" class="label-sm">Sudan · Egypt</text>
-  <text x="478" y="102" class="label-sm">Far East — China, India</text>
+  <text x="168" y="56" class="label-sm" text-anchor="end">United Kingdom</text>
+  <text x="300" y="44" class="label-sm" text-anchor="middle">Middle East · UAE</text>
+  <text x="440" y="62" class="label-sm" text-anchor="start">Sudan · Egypt</text>
+  <text x="516" y="98" class="label-sm" text-anchor="start">Far East — China, India</text>
 
   <!-- regional context nodes -->
-  <g class="node">
-    <circle cx="560" cy="260" r="6" />
-    <text x="572" y="264" class="label-sm">Kenya — maize-deficit market</text>
+  <g>
+    <circle cx="574" cy="264" r="4.5" class="node-dot--ghost" />
+    <text x="586" y="268" class="label-sm" text-anchor="start">Kenya — maize-deficit market</text>
   </g>
-  <g class="node">
-    <circle cx="200" cy="180" r="6" />
-    <text x="212" y="184" class="label-sm">South Sudan — import-dependent</text>
+  <g>
+    <circle cx="96" cy="172" r="4.5" class="node-dot--ghost" />
+    <text x="108" y="176" class="label-sm" text-anchor="start">South Sudan — import-dependent</text>
   </g>
 
   <!-- named route nodes -->
-  <g class="node origin">
-    <circle cx="300" cy="300" r="9" />
-    <text x="316" y="296" class="label" font-weight="600">Amuru — Bana Trading Centre</text>
-    <text x="316" y="314" class="label-sm">Normah Agro Farm</text>
+  <g>
+    <circle cx="300" cy="314" r="15" class="origin-halo" />
+    <circle cx="300" cy="314" r="10" class="origin-halo-2" />
+    <circle cx="300" cy="314" r="7" class="origin-dot" />
+    <text x="300" y="338" class="eyebrow" text-anchor="middle">NORMAH AGRO FARM</text>
+    <text x="300" y="358" class="label" text-anchor="middle">Amuru — Bana Trading Centre</text>
   </g>
-  <g class="node">
-    <circle cx="340" cy="220" r="7" />
-    <text x="354" y="216" class="label">Gulu</text>
-    <text x="354" y="232" class="label-sm">~90 km east of the farm</text>
+  <g>
+    <circle cx="340" cy="226" r="6" class="node-dot" />
+    <text x="354" y="222" class="label" text-anchor="start">Gulu</text>
+    <text x="354" y="238" class="label-sm" text-anchor="start">~90 km east of the farm</text>
   </g>
-  <g class="node">
-    <circle cx="300" cy="150" r="7" />
-    <text x="314" y="146" class="label">Elegu / Nimule</text>
-    <text x="314" y="162" class="label-sm">border crossing to South Sudan</text>
+  <g>
+    <circle cx="300" cy="130" r="6" class="node-dot" />
+    <text x="314" y="150" class="label" text-anchor="start">Elegu / Nimule</text>
+    <text x="314" y="166" class="label-sm" text-anchor="start">border crossing to South Sudan</text>
   </g>
-  <g class="node">
-    <circle cx="420" cy="380" r="7" />
-    <text x="434" y="384" class="label">Kampala</text>
-    <text x="434" y="400" class="label-sm">registered office, onward logistics</text>
+  <g>
+    <circle cx="418" cy="372" r="6" class="node-dot" />
+    <text x="432" y="368" class="label" text-anchor="start">Kampala</text>
+    <text x="432" y="384" class="label-sm" text-anchor="start">registered office, onward logistics</text>
   </g>
 
   <!-- neighbouring districts, quiet context -->
-  <text x="150" y="330" class="label-sm">Adjumani District</text>
-  <text x="150" y="260" class="label-sm">Nwoya District</text>
+  <text x="112" y="404" class="label-sm" text-anchor="start" opacity="0.5">Adjumani District</text>
+  <text x="112" y="288" class="label-sm" text-anchor="start" opacity="0.5">Nwoya District</text>
 </svg>
