@@ -311,15 +311,6 @@
 .role-list .role-item { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-3) 0; border-bottom: 1px dotted var(--rule); font-size: var(--size-body-sm); }
 .role-list .role-item .count { font-family: var(--font-data); color: var(--seed); font-weight: 600; }
 
-/* ============ COMPLIANCE LIST (quality page) ============ */
-.compliance-list { display: grid; gap: var(--space-4); }
-.compliance-item { position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr auto; gap: var(--space-4); align-items: start; padding: var(--space-5) var(--space-5) var(--space-5) calc(var(--space-5) + 4px); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-card); box-shadow: var(--shadow-card); transition: border-color var(--dur-med) var(--ease-ledger), box-shadow var(--dur-med) var(--ease-ledger), transform var(--dur-med) var(--ease-ledger); }
-.compliance-item::before { content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: var(--loam); }
-.compliance-item:hover { border-color: rgba(var(--loam-rgb), 0.3); box-shadow: var(--shadow-card-hover); transform: translateY(-2px); }
-.compliance-item h3 { font-size: 1.05rem; margin-bottom: var(--space-2); }
-.compliance-item p { font-size: var(--size-body-sm); opacity: 0.85; }
-.compliance-item .badge { align-self: center; }
-
 /* ============ ICON BADGE (shared across interior pages) ============ */
 .icon-badge {
   display: flex;

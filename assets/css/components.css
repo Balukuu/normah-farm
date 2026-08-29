@@ -328,7 +328,6 @@
 }
 .badge--planned { color: var(--loam); background: rgba(var(--loam-rgb),0.06); }
 .badge--active { color: var(--seed); background: rgba(var(--seed-rgb),0.08); border-color: rgba(var(--seed-rgb),0.3); }
-.badge--progress { color: var(--loam); background: rgba(var(--loam-rgb),0.08); }
 
 /* ============ HERO HIGHLIGHTS ============ */
 .hero-highlights { display: grid; gap: var(--space-4); margin-block: var(--space-8); }
