@@ -1,8 +1,25 @@
 /*
   NORMAH AGRO FARM — design tokens
-  Warm, friendly farm-to-market shell: cream paper, deep forest green,
-  citrus-orange accent, soft mint surfaces, rounded cards.
-  Do not add hex values outside this file.
+
+  The whole visual system lives here. Components read these tokens and never
+  carry their own hex values, radii, font sizes or spacing.
+
+  Colour roles
+    --ink / --ink-muted   text (primary / secondary)
+    --paper / --mist / --mint   surfaces (white / cream / soft green)
+    --seed                deep green: dark sections, active states, data
+    --leaf                mid green: Season B in the calendar only
+    --chaff               the ONE accent (orange): primary actions and the
+                          "today" marker. Nothing else is orange.
+    --loam                brown: warnings, errors, "planned" status
+
+  Contrast (WCAG, measured): --ink on --chaff 5.9:1 (white on --chaff is
+  only 2.6:1, so text on orange is always --ink). --ink-muted on any
+  surface >= 6.3:1. --ink-faint on white 4.9:1.
+
+  Radius rule: a rounded box nested in a padded rounded box gets
+  inner = outer - padding (never below --radius-sm). See --radius-inner
+  on .card, .faq-item and .quote-card.
 */
 
 @font-face {
@@ -15,86 +32,68 @@
   font-display: swap;
 }
 
+/* Instrument Sans is a variable font: the file carries the full weight axis,
+   so declare it. (Declaring only 400 500 made every 600 a synthesised bold.) */
 @font-face {
   font-family: "Instrument Sans";
   src: url("../fonts/instrument-sans.woff2") format("woff2");
-  font-weight: 400 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  src: url("../fonts/plex-mono-400.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  src: url("../fonts/plex-mono-500.woff2") format("woff2");
-  font-weight: 500;
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  /* ---- colour: six named tokens + paper/rule ---- */
-  --ink:   #1A2A1C;
-  --seed:  #1F3D2A;
-  --leaf:  #5D9E52;
-  --chaff: #E98B3E;            /* was lime #D6FA3B — now the citrus-orange accent */
-  --loam:  #6B4A2C;
-  --mist:  #F7F5EC;
-  --paper: #FFFFFF;
-  --mint:  #E8F2D9;            /* soft green surface: stat bar, FAQ band */
-  --rule:  rgba(var(--ink-rgb), 0.08);
+  /* ---- colour ---- */
+  --ink:        #1A2A1C;
+  --ink-muted:  #4A5A4D;
+  --ink-faint:  #677568;
+  --seed:       #1F3D2A;
+  --leaf:       #5D9E52;
+  --chaff:      #E98B3E;
+  --chaff-hover:#F29B53;
+  --chaff-ink:  var(--ink);      /* text on orange: never white */
+  --loam:       #6B4A2C;
+  --mist:       #F7F5EC;
+  --paper:      #FFFFFF;
+  --mint:       #E8F2D9;
+  --on-ink:     #F5F6F1;         /* text on --seed / --ink surfaces */
 
-  /* derived, same hues only — enhanced depth */
-  --ink-rgb: 26, 42, 28;
-  --on-ink: #F5F6F1;          /* text on --ink surfaces */
-  --on-ink-dim: rgba(var(--on-ink-rgb), 0.68);
+  --ink-rgb:  26, 42, 28;
   --seed-rgb: 31, 61, 42;
   --leaf-rgb: 93, 158, 82;
   --loam-rgb: 107, 74, 44;
-  --on-ink-rgb: 245, 246, 241;
   --chaff-rgb: 233, 139, 62;
-  --mint-rgb: 232, 242, 217;
-  --chaff-ink: #FFFFFF;       /* text set on orange fills */
-  --focus-ring: #1F3D2A;      /* = --seed, distinct enough on both paper and ink */
+  --on-ink-rgb: 245, 246, 241;
+  --paper-rgb: 255, 255, 255;
 
-  /* premium depth & shadows */
-  --shadow-ledger: 0 1px 0 rgba(var(--ink-rgb), 0.06);
-  --shadow-card: 0 14px 30px -15px rgba(var(--ink-rgb), 0.1), 0 4px 12px -4px rgba(var(--ink-rgb), 0.05);
-  --shadow-card-hover: 0 22px 45px -18px rgba(var(--seed-rgb), 0.22), 0 8px 24px -6px rgba(var(--ink-rgb), 0.1);
-  --shadow-glass: 0 20px 40px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.12);
-  --shadow-chaff-glow: 0 0 24px -4px rgba(var(--chaff-rgb), 0.5);
+  --on-ink-muted: rgba(var(--on-ink-rgb), 0.78);   /* 6.0:1 on --seed */
+  --rule: rgba(var(--ink-rgb), 0.08);              /* hairlines */
+  --line: rgba(var(--ink-rgb), 0.16);              /* control borders */
+  --scrim: linear-gradient(100deg, rgba(var(--ink-rgb), 0.84) 0%, rgba(var(--ink-rgb), 0.55) 48%, rgba(var(--ink-rgb), 0.1) 80%);
+  --scrim-stacked: linear-gradient(to top, rgba(var(--ink-rgb), 0.9) 0%, rgba(var(--ink-rgb), 0.72) 55%, rgba(var(--ink-rgb), 0.3) 100%);   /* narrow screens: text spans the full width */
+  --focus-ring: var(--seed);
 
-  /* luxury gradients */
-  --seed-gradient: linear-gradient(135deg, #26523B 0%, #16281B 100%);
-  --dark-gradient: linear-gradient(145deg, #1F3B29 0%, #122115 100%);
-  --chaff-gradient: linear-gradient(135deg, #F0A45E 0%, #E07C2C 100%);
-  --glass-bg: rgba(255, 255, 255, 0.82);
-  --glass-dark: rgba(24, 38, 27, 0.72);
+  /* ---- elevation: flat by default, one shadow for things that float ---- */
+  --shadow-raised: 0 1px 2px rgba(var(--ink-rgb), 0.06), 0 10px 28px -14px rgba(var(--ink-rgb), 0.22);
 
   /* ---- type families ---- */
   --font-display: "Archivo", "Arial Narrow", sans-serif;
   --font-body: "Instrument Sans", -apple-system, "Segoe UI", sans-serif;
-  --font-data: "IBM Plex Mono", "Courier New", monospace;
 
-  /* ---- type scale (fluid, clamp-based) ---- */
-  --size-display: clamp(2.75rem, 2rem + 3.2vw, 5.75rem);
-  --size-h2: clamp(1.75rem, 1.4rem + 1.6vw, 3rem);
-  --size-h3: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  /* ---- type scale ---- */
+  --size-display: clamp(2.5rem, 1.7rem + 3vw, 4.5rem);   /* home hero h1 */
+  --size-h1: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);     /* page h1 */
+  --size-h2: clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem);
+  --size-h3: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+  --size-lede: 1.125rem;
   --size-body: 1.0625rem;
   --size-body-sm: 0.9375rem;
-  --size-data: 0.875rem;
-  --size-data-sm: 0.75rem;
-  --line-body: 1.65;
+  --size-label: 0.8125rem;     /* smallest text on the site (13px) */
+  --line-body: 1.6;
   --line-tight: 1.15;
+  --tracking-label: 0.08em;
 
-  /* ---- spacing rhythm ---- */
+  /* ---- spacing: 4px base ---- */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -105,45 +104,36 @@
   --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
+  --space-20: 5rem;
   --space-24: 6rem;
-  --space-32: 8rem;
+  --section-y: clamp(3.5rem, 2.25rem + 4.5vw, 6rem);
 
   /* ---- layout ---- */
   --content-max: 78rem;
   --col-gutter: clamp(1.25rem, 4vw, 3rem);
-  --rail-width: 15rem;
-  --radius-card: 1.375rem;
-  --radius-card-lg: 2rem;
+  --rail-width: 17rem;
+
+  /* ---- radius ---- */
+  --radius-sm: 0.5rem;     /* controls inside padded surfaces */
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;    /* cards, photos */
+  --radius-xl: 1.75rem;    /* page-level surfaces: hero, calendar, quote card */
   --radius-pill: 999px;
 
   /* ---- motion ---- */
-  --ease-ledger: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-fast: 180ms;
-  --dur-med: 420ms;
-  --dur-slow: 900ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 150ms;
+  --dur-med: 300ms;
+  --dur-slow: 600ms;
+
+  /* ---- icons (one stroke style, drawn once, tinted with currentColor) ---- */
+  --icon-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
 }
 
-/* Keyframe Animations */
-@keyframes pulse-live {
-  0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(var(--chaff-rgb), 0.7); }
-  70% { transform: scale(1.05); opacity: 0.9; box-shadow: 0 0 0 8px rgba(var(--chaff-rgb), 0); }
-  100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(var(--chaff-rgb), 0); }
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-@keyframes float-badge {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slide-down { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
-  :root {
-    --dur-fast: 0ms;
-    --dur-med: 0ms;
-    --dur-slow: 0ms;
-  }
+  :root { --dur-fast: 0ms; --dur-med: 0ms; --dur-slow: 0ms; }
 }

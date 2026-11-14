@@ -49,7 +49,7 @@
         var target = el.getAttribute("data-count");
         var suffix = el.getAttribute("data-suffix") || "";
         var prefix = el.getAttribute("data-prefix") || "";
-        el.textContent = prefix + target + suffix;
+        el.textContent = prefix + Number(target).toLocaleString() + suffix;
       }
     });
     return;

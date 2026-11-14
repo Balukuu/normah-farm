@@ -58,7 +58,7 @@
     </nav>
     <div class="header-actions">
       <a class="btn btn--primary btn--sm" href="../buyers#quote"><span class="btn-label-full">Request a quote</span><span class="btn-label-short">Get quote</span></a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="mobileNav"><span aria-hidden="true">☰</span> <span class="nav-toggle-label">Menu</span></button>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="mobileNav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg> <span class="nav-toggle-label">Menu</span></button>
     </div>
   </div>
   <nav class="nav-mobile" id="mobileNav" aria-label="Mobile">
@@ -80,9 +80,39 @@
   <section class="page-head">
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> / What we grow</nav>
-      <span class="eyebrow">What we grow</span>
       <h1>Six crops, two seasons, one farm.</h1>
       <p class="lede">Maize, soya beans, rice, sesame, sorghum and millet, grown on Normah's own land in Amuru District. Wheat is planned as a future addition.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="crop-grid">
+        <a class="crop-card" href="maize">
+          <img src="../assets/img/photos/crop-maize-field.webp" width="973" height="570" loading="lazy" alt="A maize field in leaf at Normah's Amuru farm.">
+          <div class="media-body"><h3>Maize</h3><span class="seasons">Season A &amp; B</span><p class="note">Feed and food grade, grown across both seasons.</p></div>
+        </a>
+        <a class="crop-card" href="soya-beans">
+          <img src="../assets/img/photos/crop-soya-beans-field.webp" width="962" height="564" loading="lazy" alt="A dense soya bean field at Normah's Amuru farm.">
+          <div class="media-body"><h3>Soya beans</h3><span class="seasons">Season A &amp; B</span><p class="note">Oilseed and feed markets, rotated with cereals.</p></div>
+        </a>
+        <a class="crop-card" href="rice">
+          <img src="../assets/img/photos/crop-rice-field.webp" width="1152" height="648" loading="lazy" alt="A rice field at Normah's Amuru farm.">
+          <div class="media-body"><h3>Rice</h3><span class="seasons">Season B</span><p class="note">Grown in the wetter half of the year, borehole-supported.</p></div>
+        </a>
+        <a class="crop-card" href="sesame">
+          <img src="../assets/img/photos/crop-sesame-field.webp" width="964" height="564" loading="lazy" alt="A sesame field at Normah's Amuru farm.">
+          <div class="media-body"><h3>Sesame</h3><span class="seasons">Season B</span><p class="note">Also called simsim — part of Normah's six-crop breadth.</p></div>
+        </a>
+        <a class="crop-card" href="sorghum">
+          <img src="../assets/img/photos/crop-sorghum-field.webp" width="1152" height="648" loading="lazy" alt="A sorghum field at Normah's Amuru farm.">
+          <div class="media-body"><h3>Sorghum</h3><span class="seasons">Season A &amp; B</span><p class="note">Drought-tolerant cereal grown across both seasons.</p></div>
+        </a>
+        <a class="crop-card" href="millet">
+          <img src="../assets/img/photos/crop-millet-field.webp" width="1152" height="648" loading="lazy" alt="A millet field at Normah's Amuru farm.">
+          <div class="media-body"><h3>Millet</h3><span class="seasons">Season A</span><p class="note">A traditional northern Uganda cereal in the rotation.</p></div>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -91,8 +121,8 @@
       <div class="season-band">
         <div class="track" role="group" aria-label="Growing calendar, Season A and Season B">
           <div class="progress" style="width:0%"></div>
-          <div class="seg seg--a"><span class="seg-label">Season A<span class="seg-range mono">Early Mar–Jun</span></span></div>
-          <div class="seg seg--b"><span class="seg-label">Season B<span class="seg-range mono">Jul–Dec</span></span></div>
+          <div class="seg seg--a"><span class="seg-label">Season A<span class="seg-range tnum">Early Mar–Jun</span></span></div>
+          <div class="seg seg--b"><span class="seg-label">Season B<span class="seg-range tnum">Jul–Dec</span></span></div>
         </div>
         <div class="chips">
           <a class="chip" data-pos="10" href="maize"><span class="dot"></span>Maize</a>
@@ -102,21 +132,13 @@
           <a class="chip" data-pos="65" href="rice"><span class="dot"></span>Rice</a>
           <a class="chip" data-pos="75" href="sesame"><span class="dot"></span>Sesame</a>
         </div>
-        <div class="legend">
-          <span class="key"><span class="swatch" style="background:var(--seed)"></span>Season A</span>
-          <span class="key"><span class="swatch" style="background:var(--leaf)"></span>Season B</span>
-          <span class="key"><span class="swatch" style="background:var(--chaff)"></span>Where we are now</span>
-        </div>
       </div>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
-      <div class="section-heading" style="margin-bottom:1.5rem;">
-        <span class="icon-badge icon-badge--b" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span>
-        <h2>Compare the six crops</h2>
-      </div>
+      <h2>Compare the six crops</h2>
       <div class="table-scroll">
         <table class="data-table">
           <caption>Crop specification summary — see each crop page for full detail</caption>
@@ -133,65 +155,62 @@
           <tbody>
             <tr>
               <td><span class="crop-dot crop-dot--both" aria-hidden="true"></span><a href="maize">Maize</a></td>
-              <td class="mono">A &amp; B</td>
-              <td class="mono">Early in each season</td>
-              <td class="mono">Mid–late in each season</td>
+              <td class="tnum">A &amp; B</td>
+              <td class="tnum">Early in each season</td>
+              <td class="tnum">Mid–late in each season</td>
               <td>Export &amp; regional trade</td>
-              <td class="mono">50 kg bags</td>
+              <td class="tnum">50 kg bags</td>
             </tr>
             <tr>
               <td><span class="crop-dot crop-dot--both" aria-hidden="true"></span><a href="soya-beans">Soya beans</a></td>
-              <td class="mono">A &amp; B</td>
-              <td class="mono">Early in each season</td>
-              <td class="mono">Mid–late in each season</td>
+              <td class="tnum">A &amp; B</td>
+              <td class="tnum">Early in each season</td>
+              <td class="tnum">Mid–late in each season</td>
               <td>Export</td>
-              <td class="mono">50 kg bags</td>
+              <td class="tnum">50 kg bags</td>
             </tr>
             <tr>
               <td><span class="crop-dot crop-dot--b" aria-hidden="true"></span><a href="rice">Rice</a></td>
-              <td class="mono">B</td>
-              <td class="mono">Early Season B</td>
-              <td class="mono">Late Season B</td>
+              <td class="tnum">B</td>
+              <td class="tnum">Early Season B</td>
+              <td class="tnum">Late Season B</td>
               <td>Export &amp; regional trade</td>
-              <td class="mono">50 kg bags</td>
+              <td class="tnum">50 kg bags</td>
             </tr>
             <tr>
               <td><span class="crop-dot crop-dot--b" aria-hidden="true"></span><a href="sesame">Sesame</a></td>
-              <td class="mono">B</td>
-              <td class="mono">Early–mid Season B</td>
-              <td class="mono">Late Season B</td>
+              <td class="tnum">B</td>
+              <td class="tnum">Early–mid Season B</td>
+              <td class="tnum">Late Season B</td>
               <td>Export (simsim)</td>
-              <td class="mono">50 kg bags</td>
+              <td class="tnum">50 kg bags</td>
             </tr>
             <tr>
               <td><span class="crop-dot crop-dot--both" aria-hidden="true"></span><a href="sorghum">Sorghum</a></td>
-              <td class="mono">A &amp; B</td>
-              <td class="mono">Early in each season</td>
-              <td class="mono">Mid–late in each season</td>
+              <td class="tnum">A &amp; B</td>
+              <td class="tnum">Early in each season</td>
+              <td class="tnum">Mid–late in each season</td>
               <td>Regional &amp; export trade</td>
-              <td class="mono">50 kg bags</td>
+              <td class="tnum">50 kg bags</td>
             </tr>
             <tr>
               <td><span class="crop-dot crop-dot--a" aria-hidden="true"></span><a href="millet">Millet</a></td>
-              <td class="mono">A</td>
-              <td class="mono">Early Season A</td>
-              <td class="mono">Mid–late Season A</td>
+              <td class="tnum">A</td>
+              <td class="tnum">Early Season A</td>
+              <td class="tnum">Mid–late Season A</td>
               <td>Regional trade</td>
-              <td class="mono">50 kg bags</td>
+              <td class="tnum">50 kg bags</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p class="footer-verify" style="margin-top:1rem;"><!-- [VERIFY] planting/harvest windows and packaging are provisional placeholders pending client confirmation; see /data/crops.json and CONTENT-GAPS.md --> Planting and harvest windows and packaging are provisional pending client confirmation — see <code>data/crops.json</code>.</p>
+      <p class="footer-verify mt-4"><!-- [VERIFY] planting/harvest windows and packaging are provisional placeholders pending client confirmation; see /data/crops.json and CONTENT-GAPS.md --> Planting and harvest windows and packaging are provisional pending client confirmation — see <code>data/crops.json</code>.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
-      <div class="section-heading" style="margin-bottom:1.5rem;">
-        <span class="icon-badge icon-badge--loam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c0-4 2-6 2-10"/><path d="M9.5 9.4a5 5 0 0 1 5-5 5 5 0 0 1-5 5Z"/><path d="M14.5 9.4a5 5 0 0 0-5-5 5 5 0 0 0 5 5Z"/></svg></span>
-        <h2>Planned addition</h2>
-      </div>
+      <h2>Planned addition</h2>
       <div class="crop-grid">
         <div class="crop-card crop-card--planned">
           <h3>Wheat <span class="badge badge--planned">Planned</span></h3>

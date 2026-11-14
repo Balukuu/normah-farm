@@ -1,8 +1,12 @@
 // NORMAH AGRO FARM — quote & enquiry form handling.
 //
-// Attaches to any <form data-normah-form="quote"> or [data-normah-form="contact"].
-// Both the buyer request-a-quote form (/buyers.html) and the general
-// enquiry form (/contact.html) use this one script.
+// Attaches to any <form data-normah-form="quote" | "contact" | "newsletter">.
+// The buyer request-a-quote form (/buyers), the general enquiry form
+// (/contact) and the home-page newsletter form all use this one script.
+//
+// States: idle → sending (button shows a spinner, form is aria-busy and the
+// fields are locked so a double-click can't send twice) → sent (fields are
+// replaced by the confirmation) or error (message shown, form stays filled).
 //
 // REQUIRED SETUP — see README.md "Wiring the form" section:
 // The site is static (GitHub Pages), so each form POSTs to a hosted
@@ -97,6 +101,21 @@
     var successMessage = form.getAttribute("data-success-message") || "Request sent.";
     var endpoint = form.getAttribute("data-endpoint") || DEFAULT_ENDPOINT;
 
+    // Loading state: spinner (CSS, via aria-busy), locked fields, original label restored after.
+    function setSending(on) {
+      form.setAttribute("aria-busy", on ? "true" : "false");
+      form.querySelectorAll("input, select, textarea").forEach(function (el) { el.readOnly = on; });
+      if (!submitBtn) return;
+      submitBtn.disabled = on;
+      submitBtn.setAttribute("aria-busy", on ? "true" : "false");
+      if (on) {
+        submitBtn.dataset.originalHtml = submitBtn.innerHTML;
+        submitBtn.textContent = "Sending…";
+      } else if (submitBtn.dataset.originalHtml) {
+        submitBtn.innerHTML = submitBtn.dataset.originalHtml;
+      }
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!endpoint) {
@@ -111,11 +130,8 @@
         return;
       }
 
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.dataset.originalText = submitBtn.textContent;
-        submitBtn.textContent = "Sending…";
-      }
+      if (statusEl) { statusEl.hidden = true; statusEl.className = "form-status"; statusEl.textContent = ""; }  // clear any stale message
+      setSending(true);
 
       var payload = serialize(form);
 
@@ -127,7 +143,7 @@
         .then(function (res) {
           if (!res.ok) throw new Error("Request failed with status " + res.status);
           form.reset();
-          form.hidden = true;
+          form.classList.add("is-sent");
           if (statusEl) {
             statusEl.hidden = false;
             setStatus(statusEl, "success", successMessage);
@@ -143,10 +159,7 @@
           }
         })
         .finally(function () {
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = submitBtn.dataset.originalText;
-          }
+          setSending(false);
         });
     });
   });

@@ -1,14 +1,9 @@
-/* NORMAH AGRO FARM — base: reset, typography, grid, global chrome */
+/* NORMAH AGRO FARM — base: reset, typography, rhythm, layout */
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-::selection { background: rgba(var(--seed-rgb),0.25); color: var(--ink); }
-
-/* Custom Scrollbar */
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--mist); }
-::-webkit-scrollbar-thumb { background: rgba(var(--seed-rgb), 0.4); border-radius: 999px; border: 2px solid var(--mist); }
-::-webkit-scrollbar-thumb:hover { background: var(--seed); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+::selection { background: rgba(var(--seed-rgb), 0.22); color: var(--ink); }
 
 body {
   margin: 0;
@@ -20,63 +15,81 @@ body {
   font-weight: 400;
   overflow-x: hidden;
 }
+
+/* A tinted block holds the space while an image loads; the image paints over it. */
 img, svg { max-width: 100%; display: block; }
-a { color: inherit; transition: color var(--dur-fast) var(--ease-ledger); }
+img { background-color: var(--mint); }
+img[src$=".svg"], .brand img { background-color: transparent; }
+
+a { color: inherit; transition: color var(--dur-fast) var(--ease-out); }
 button { font: inherit; color: inherit; }
 table { border-collapse: collapse; }
 ul, ol { padding-left: 1.25em; }
-h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: var(--line-tight); margin: 0; overflow-wrap: break-word; }
-p { margin: 0; }
 
-.mono, .data, time, .figure {
-  font-family: var(--font-data);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.01em;
+/* ---- headings: balanced wrapping, one spacing rule ---- */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--line-tight);
+  margin: 0;
+  overflow-wrap: break-word;
+  text-wrap: balance;
 }
+h1 { font-size: var(--size-h1); letter-spacing: -0.02em; }
+h2 { font-size: var(--size-h2); letter-spacing: -0.015em; margin-bottom: var(--space-5); }
+h3 { font-size: var(--size-h3); margin-bottom: var(--space-2); }
+h4 { font-size: var(--size-body-sm); }
 
-h1, .h1 { font-size: var(--size-display); font-stretch: 100%; letter-spacing: -0.015em; }
-h2, .h2 { font-size: var(--size-h2); font-stretch: 100%; letter-spacing: -0.01em; }
-h3, .h3 { font-size: var(--size-h3); font-stretch: 100%; }
+/* a heading that opens a grid, table or list gets the same heading-to-content gap everywhere */
+h2 + :is(.weighslip-grid, .equipment-grid, .table-scroll, .chain, .people-grid, .role-list, .crop-grid) { margin-top: var(--space-8); }
+
+p { margin: 0; text-wrap: pretty; }
+p + p { margin-top: var(--space-4); }
+
+/* Numbers that line up in columns or count up: tabular figures, same typeface. */
+.tnum, time, table, .figure { font-variant-numeric: tabular-nums; }
 
 .eyebrow {
-  font-family: var(--font-data);
-  font-size: var(--size-data-sm);
+  display: block;
+  margin-bottom: var(--space-3);
+  font-size: var(--size-label);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--tracking-label);
   color: var(--seed);
-  font-weight: 500;
 }
 
 /* ---- skip link ---- */
 .skip-link {
   position: absolute;
-  left: 1rem;
+  left: var(--space-4);
   top: -3rem;
   background: var(--ink);
   color: var(--on-ink);
-  padding: 0.75rem 1.25rem;
-  border-radius: var(--radius-card);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
   z-index: 100;
-  transition: top var(--dur-fast) var(--ease-ledger);
+  transition: top var(--dur-fast) var(--ease-out);
   text-decoration: none;
-  font-family: var(--font-data);
-  font-size: var(--size-data-sm);
+  font-size: var(--size-label);
 }
-.skip-link:focus { top: 1rem; }
+.skip-link:focus { top: var(--space-4); }
 
-/* ---- focus ring, everywhere, always visible ---- */
+/* ---- focus ring: always visible, never alters the element's shape ---- */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
+summary:focus-visible,
 [tabindex]:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
-  border-radius: 2px;
 }
+.section--dark :focus-visible,
+.site-footer :focus-visible { outline-color: var(--chaff); }
 
-/* ---- layout: 12-col grid, content on 2-9, rail on right ---- */
+/* ---- layout ---- */
 .wrap {
   max-width: var(--content-max);
   margin-inline: auto;
@@ -93,33 +106,23 @@ textarea:focus-visible,
     grid-template-columns: minmax(0, 1fr) var(--rail-width);
     align-items: start;
   }
-  .layout-rail .rail { position: sticky; top: 6.5rem; }
+  .layout-rail .rail { position: sticky; top: 7.5rem; }
 }
 
-.section {
-  padding-block: var(--space-24);
-  border-top: 1px solid var(--rule);
-  position: relative;
-}
-.section:first-of-type { border-top: none; }
-.section--tight { padding-block: var(--space-16); }
+/* width helpers sit after .wrap on purpose: same specificity, later wins */
+/* narrow text columns stay on the page's left edge (children are capped, the wrap is not) */
+.wrap--narrow > * { max-width: 44rem; }
+.wrap--form > * { max-width: 40rem; }
 
-.section--dark {
-  background: var(--dark-gradient);
-  color: var(--on-ink);
-  border-top: none;
-  position: relative;
-  overflow: hidden;
-}
-.section--dark::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(var(--chaff-rgb), 0.3), transparent);
-}
+/* Sections are separated by space and surface colour, not hairlines. */
+.section { padding-block: var(--section-y); position: relative; }
+.section--tight { padding-block: calc(var(--section-y) * 0.65); }
+.section--flush-top { padding-top: 0; }
+.section--tint { background: var(--mist); }
+.section--mint { background: var(--mint); }
+.section--dark { background: var(--seed); color: var(--on-ink); }
 .section--dark .eyebrow { color: var(--chaff); }
-.section--dark a { color: var(--on-ink); }
+.section--dark a:not(.btn) { color: var(--on-ink); }
 
 .visually-hidden {
   position: absolute;
@@ -132,20 +135,22 @@ textarea:focus-visible,
 }
 
 /* ---- reveal-on-scroll (progressive enhancement) ---- */
-.reveal {
-  opacity: 1;
-  transform: none;
-}
 .js .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity var(--dur-med) var(--ease-ledger), transform var(--dur-med) var(--ease-ledger);
-  will-change: opacity, transform;
+  transform: translateY(12px);
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
 }
-.js .reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.js .reveal.is-visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .js .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* ---- spacing helpers (token-bound, for one-off gaps between blocks) ---- */
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mb-6 { margin-bottom: var(--space-6); }
+.measure { max-width: 38rem; }
+.measure-lg { max-width: 42rem; }
+.btn--block { width: 100%; }
+.list-spaced { display: grid; gap: var(--space-2); padding-left: 1.1em; }

@@ -30,7 +30,8 @@
       var chipsRef = band.querySelector(".chips");
       band.insertBefore(todayLine, chipsRef || null);
     }
-    todayLine.style.left = pct + "%";
+    // 0–1, measured against the track in CSS so the marker lines up with it exactly
+    todayLine.style.setProperty("--pct", String(pct / 100));
 
     var chips = band.querySelectorAll(".chip");
     chips.forEach(function (chip) {

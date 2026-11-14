@@ -1,10 +1,10 @@
 # Normah Agro Farm — website
 
 Static, no-build-step marketing site for Normah Agro Farm Ltd, built to
-the "Field Ledger" design system: six brand colour tokens, three typefaces
-(Archivo for display, Instrument Sans for body, IBM Plex Mono for every
-number on the site), and a scroll-linked Season Band as the signature
-visual device. Plain HTML/CSS/vanilla JS — no framework, no bundler, no
+one token-driven design system: a small colour palette with a single
+accent, two typefaces (Archivo for display, Instrument Sans for body —
+numbers use its tabular figures, so there is no monospace font), and a
+scroll-linked Season Band as the signature visual device. Plain HTML/CSS/vanilla JS — no framework, no bundler, no
 `npm install`. It is meant to still work, untouched, in three years.
 
 ## What's in this folder
@@ -23,7 +23,7 @@ field-notes/                Field Notes index + 3 draft posts
 contact.html                Contact (incl. general enquiry form)
 assets/css/                 tokens.css, base.css, components.css, pages.css
 assets/js/                  season-band.js, reveal.js, quote-form.js, nav.js
-assets/fonts/               Self-hosted Archivo, Instrument Sans, IBM Plex Mono (woff2, latin subset)
+assets/fonts/               Self-hosted Archivo and Instrument Sans (variable woff2, latin subset)
 assets/img/                 Logo, favicons, corridor map SVG, OG cards, photo placeholders live inline in HTML
 assets/docs/                crop-specifications.xlsx, the two PDFs
 assets/php/send-quote.php.example   Starting point for a cPanel mail handler
@@ -131,17 +131,28 @@ The site is deployed via GitHub Pages with a custom domain,
 
 ## Design rationale (short version)
 
-- **Palette:** the six tokens in `assets/css/tokens.css` come straight
-  from the existing Normah logo (two greens, one yellow) plus two
-  additions grounded in the place itself — a soil brown (`--loam`) and a
-  cool green-grey paper tone (`--mist`) instead of the ubiquitous warm
-  cream. Nothing else was added; the QA pass greps the CSS for stray hex
-  values.
-- **Type:** Archivo's expanded width axis reads as signage/agricultural
-  infrastructure rather than editorial display type; Instrument Sans
-  carries body copy without competing for attention; every number on the
-  site — acreage, tonnage, dates, moisture — sets in IBM Plex Mono, which
-  is what makes the site read as operational rather than promotional.
+- **Palette:** every colour, radius, font size and spacing step lives in
+  `assets/css/tokens.css`; the other three stylesheets read those tokens
+  and carry no hex values (grep for `#` to check). Surfaces are white,
+  cream (`--mist`) and soft green (`--mint`); `--seed` is the deep green
+  used for dark sections and active states.
+- **One accent:** orange (`--chaff`) is reserved for the primary action
+  (the quote CTA) and the "Today" marker on the Season Band. Nothing else
+  is orange, so the CTA is the loudest thing on every page. Text on orange
+  is always `--ink` (5.9:1); white on that orange would be 2.6:1.
+- **Contrast:** secondary text uses `--ink-muted` (>= 6.3:1 on every
+  surface) rather than reduced opacity, and placeholders use `--ink-faint`
+  (4.9:1).
+- **Type:** Archivo for headings, Instrument Sans for everything else
+  (declared with its full 400–700 weight range). Numbers that line up or
+  count up (stats, tables, dates, specs) use `font-variant-numeric:
+  tabular-nums` via the `.tnum` class. Headings use `text-wrap: balance`,
+  so there are no hand-placed line breaks.
+- **Radius rule:** a rounded box nested in a padded rounded box gets
+  inner radius = outer radius − padding (floored at `--radius-sm`); see
+  `--radius-inner` on `.card`, `.faq-item` and `.quote-card`.
+- **Grouping:** sections are separated by space and surface colour, not
+  hairlines; cards group by surface tint rather than border + shadow.
 - **Signature element:** the Season Band renders the two real growing
   seasons as a literal horizontal timeline with crops as chips at their
   position — because that's what the farm's own planting calendar looks
